@@ -1,0 +1,23 @@
+# per-run outputs
+runs/
+lab/logs/
+report/figures/
+*.pcap
+
+# python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# editor
+.vscode/
+.idea/
+
+# local junk
+_stale_runs/
+*.log
+
+# trained LoRA adapters (large binaries; kept locally)
+ml/adapters/
+ml/arena_data/

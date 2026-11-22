@@ -1,0 +1,38 @@
+# CyberSwarm — E2 ablation: NO LEARNING control.
+# Identical to experiment.yaml except the learning flags are all off and the run_name
+# differs, so it writes to runs/no_learning/ for a side-by-side comparison with baseline.
+
+run_name: no_learning
+rounds: 15
+seed: 42
+
+budgets:
+  red_steps: 12
+  blue_steps: 8
+  round_timeout_s: 600
+
+llm:
+  base_url: http://localhost:11434/v1
+  api_key: ollama
+  planner: qwen2.5:14b
+  reflector: qwen2.5:14b
+  temperature: 0.3
+  request_timeout_s: 120
+
+learning:
+  reflection: false        # no end-of-round lessons
+  memory: false            # no playbook / past-episode injection
+  debrief: false           # no cross-agent log exchange
+  memory_window: 3
+
+blue:
+  use_ids_model: false
+  allow_code_patches: true
+
+lab:
+  subnets:
+    attacker_net: 10.10.1.0/24
+    dmz_net: 10.10.2.0/24
+    internal_net: 10.10.3.0/24
+  gateway_host: ".254"
+  log_dir: lab/logs

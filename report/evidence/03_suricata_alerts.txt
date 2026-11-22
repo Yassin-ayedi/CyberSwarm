@@ -1,0 +1,13 @@
+﻿Suricata IDS alerts — CyberSwarm lab (attacker = 10.10.1.50, webapp = 10.10.2.10)
+========================================================================
+   4x  CS path traversal attempt
+   4x  CS SQLi UNION attempt
+   3x  CS port scan (many SYN)
+   1x  CS SQLi tautology 1=1
+
+Alert source IPs (real attacker IP preserved — not NATed):
+    12x  src 10.10.1.50
+
+HTTP events parsed (legit 10.10.1.20 vs attacker 10.10.1.50):
+  25644  src 10.10.1.20
+     17  src 10.10.1.50

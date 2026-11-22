@@ -1,0 +1,23 @@
+# CyberSwarm arena (MVP co-evolution mode). Used by orchestrator/arena_main.py.
+# The old purple-team pipeline (main.py + the other configs) is untouched.
+
+llm:
+  base_url: http://localhost:11434/v1   # SSH tunnel to the GPU VM's Ollama
+  api_key: ollama
+  red_model: qwen2.5:14b
+  blue_model: qwen2.5:14b
+  reflector: qwen2.5:14b
+  temperature: 0.3
+  timeout_s: 120
+
+episode:
+  ticks: 18              # one tick = one Red chance + one Blue decision
+  quiet_prob: 0.2        # share of episodes with no attack at all (false-alarm training)
+  red_act_prob: 0.85     # after the attack starts, Red acts on a tick with this probability
+  red_calls_per_tick: 2  # Red may chain two actions per turn (e.g. scan, then probe what it found)
+  blue_calls_per_tick: 3
+  end_when_shut_out: 2   # end the episode once the blocked attacker's last 2 actions all failed (0 = never)
+
+seeds:                    # train and test never share a scenario
+  train_base: 1000
+  eval_base: 5000

@@ -1,0 +1,16 @@
+# Custom lab signatures. Cover both targets: the Flask app (:5000) and Juice Shop (:3000).
+# Blue can add more at runtime via the add_ids_rule tool (appends here + reloads).
+
+# --- generic web-attack signatures (both targets) ---
+alert http any any -> $HOME_NET [5000,3000] (msg:"CS SQLi UNION attempt"; flow:to_server,established; content:"UNION"; nocase; content:"SELECT"; nocase; distance:0; sid:1000001; rev:2;)
+alert http any any -> $HOME_NET [5000,3000] (msg:"CS SQLi tautology 1=1"; flow:to_server; content:"1=1"; sid:1000002; rev:3;)
+alert http any any -> $HOME_NET [5000,3000] (msg:"CS SQLi tautology OR"; flow:to_server; content:"OR 1=1"; nocase; sid:1000007; rev:1;)
+alert http any any -> $HOME_NET [5000,3000] (msg:"CS path traversal attempt"; flow:to_server,established; content:"../"; sid:1000003; rev:2;)
+
+# --- Juice Shop specific ---
+alert http any any -> $HOME_NET 3000 (msg:"CS JuiceShop sensitive FTP file access"; flow:to_server; content:"/ftp/"; sid:1000005; rev:1;)
+alert http any any -> $HOME_NET 3000 (msg:"CS JuiceShop exposed metrics probe"; flow:to_server; content:"/metrics"; sid:1000006; rev:1;)
+alert http any any -> $HOME_NET 3000 (msg:"CS JuiceShop user enumeration /api/Users"; flow:to_server; content:"/api/Users"; sid:1000008; rev:1;)
+
+# --- network recon ---
+alert tcp $EXTERNAL_NET any -> $HOME_NET any (msg:"CS port scan (many SYN)"; flags:S; threshold:type both, track by_src, count 20, seconds 5; sid:1000004; rev:1;)

@@ -1,0 +1,118 @@
+# CyberSwarm lab — 3 isolated segments routed through a single gateway.
+# All lab networks are internal:true  => NO internet egress. The LLM brains run on the
+# host orchestrator, not in here. `docker compose up` brings the whole range up.
+#
+#   attacker_net (10.10.1.0/24) --[gateway .254]-- dmz_net (10.10.2.0/24) --[gateway]-- internal_net (10.10.3.0/24)
+#
+# The gateway is the ONLY node on all three networks; every cross-segment packet
+# traverses it, so Suricata on the gateway sees all of it (Ping + Wireshark proof).
+
+networks:
+  attacker_net:
+    internal: true
+    ipam:
+      config:
+        - subnet: 10.10.1.0/24
+  dmz_net:
+    internal: true
+    ipam:
+      config:
+        - subnet: 10.10.2.0/24
+  internal_net:
+    internal: true
+    ipam:
+      config:
+        - subnet: 10.10.3.0/24
+
+services:
+  gateway:
+    build: ./gateway
+    container_name: cs_gateway
+    cap_add: [NET_ADMIN, NET_RAW]   # needed to forward, run nftables, and sniff
+    sysctls:
+      net.ipv4.ip_forward: 1
+    networks:
+      attacker_net:
+        ipv4_address: 10.10.1.254
+      dmz_net:
+        ipv4_address: 10.10.2.254
+      internal_net:
+        ipv4_address: 10.10.3.254
+    volumes:
+      - ./logs:/var/log/suricata        # eve.json -> host, read by the orchestrator
+    restart: "no"
+
+  webapp:
+    build: ./webapp
+    container_name: cs_webapp
+    networks:
+      dmz_net:
+        ipv4_address: 10.10.2.10
+    environment:
+      DB_HOST: 10.10.3.10
+      DB_NAME: appdb
+      DB_USER: appuser
+      DB_PASS: app_pw_change_me
+    # route all non-local traffic through the gateway instead of Docker's default bridge
+    cap_add: [NET_ADMIN]
+    entrypoint: ["/bin/sh", "-c", "ip route replace default via 10.10.2.254 && exec python app/app.py"]
+    depends_on: [gateway, db]
+    restart: "no"
+
+  # OWASP Juice Shop — the rich target: ~100 challenges across the OWASP Top 10, with a
+  # built-in challenge API (GET /api/Challenges) we use as ground-truth scoring. No route
+  # hack needed: the gateway masquerades attacker->dmz traffic, so Juice Shop just replies
+  # to the gateway on its own subnet. The IDS still sees the real attacker IP on ingress.
+  juiceshop:
+    image: bkimminich/juice-shop:v17.1.1
+    container_name: cs_juiceshop
+    networks:
+      dmz_net:
+        ipv4_address: 10.10.2.11
+    environment:
+      NODE_ENV: unsafe        # enable all challenges incl. the ones gated off by default
+    depends_on: [gateway]
+    restart: "no"
+
+  db:
+    build: ./db
+    container_name: cs_db
+    networks:
+      internal_net:
+        ipv4_address: 10.10.3.10
+    cap_add: [NET_ADMIN]
+    environment:
+      POSTGRES_DB: appdb
+      POSTGRES_USER: appuser
+      POSTGRES_PASSWORD: app_pw_change_me
+    # db sits on internal_net; its route back out to dmz also goes via the gateway
+    command: ["sh", "-c", "ip route replace default via 10.10.3.254 && docker-entrypoint.sh postgres"]
+    restart: "no"
+
+  traffic-gen:
+    build: ./traffic-gen
+    container_name: cs_traffic
+    # Legit users live on attacker_net (the "outside"), so their traffic crosses the gateway
+    # to reach the dmz webapp — the IDS sees it, and Blue must distinguish them (10.10.1.20)
+    # from the attacker (10.10.1.50) rather than blocking the whole segment.
+    networks:
+      attacker_net:
+        ipv4_address: 10.10.1.20
+    cap_add: [NET_ADMIN]
+    environment:
+      TARGET: http://10.10.2.11:3000
+    entrypoint: ["/bin/sh", "-c", "ip route replace default via 10.10.1.254 && exec python gen.py"]
+    depends_on: [juiceshop]
+    restart: "no"
+
+  red-box:
+    build: ./red-box
+    container_name: cs_redbox
+    networks:
+      attacker_net:
+        ipv4_address: 10.10.1.50
+    cap_add: [NET_ADMIN, NET_RAW]     # NET_RAW for scanning; still no egress (internal net)
+    # Red only knows attacker_net; to reach the dmz it must go through the gateway
+    entrypoint: ["/bin/sh", "-c", "ip route replace default via 10.10.1.254 && sleep infinity"]
+    depends_on: [gateway]
+    restart: "no"

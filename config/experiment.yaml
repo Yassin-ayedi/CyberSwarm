@@ -1,0 +1,44 @@
+# CyberSwarm experiment configuration
+# One file drives a whole run. Change the learning flags to reproduce the ablation (E2).
+
+run_name: baseline        # becomes runs/<run_name>/ ... (this is the full-learning rung: all flags on)
+rounds: 15                # soft-reset restarts Juice Shop each round so rounds are comparable
+seed: 42
+
+budgets:
+  red_steps: 12          # recon(1) + map(2) + room to exploit & exfiltrate
+  blue_steps: 8
+  round_timeout_s: 600
+
+llm:
+  # Model server runs on the remote VM (RTX A4000, 16 GB VRAM). The orchestrator runs
+  # on THIS machine (with the Docker lab) and reaches the VM over an SSH tunnel:
+  #   ssh -N -L 11434:localhost:11434 <user>@<vm-host>
+  # so localhost:11434 here forwards to Ollama on the VM. No LLM port is exposed publicly.
+  base_url: http://localhost:11434/v1
+  api_key: ollama        # Ollama ignores the value but the OpenAI client needs one
+  # 14B-class Q4 (~9 GB) is the ceiling that fits the A4000's 16 GB with KV-cache headroom.
+  # qwen2.5:14b has reliable OpenAI tool-calling and no "thinking" overhead; drop to
+  # qwen2.5:7b if VRAM or latency bites. (A 32B model would NOT fit 16 GB.)
+  planner: qwen2.5:14b   # drives Red and Blue (needs tool calling)
+  reflector: qwen2.5:14b # swap to fdtn-ai/Foundation-Sec-1.1-8B for the oral talking point
+  temperature: 0.3
+  request_timeout_s: 120
+
+learning:
+  reflection: true       # end-of-round lesson extraction -> playbook
+  memory: true           # inject playbook + last N episode summaries
+  debrief: true          # each side sees the other's log before reflecting
+  memory_window: 3       # how many past episodes to inject
+
+blue:
+  use_ids_model: false   # ML layer is cut for the 2-night build; Suricata alerts are Blue's perception
+  allow_code_patches: true
+
+lab:
+  subnets:
+    attacker_net: 10.10.1.0/24
+    dmz_net: 10.10.2.0/24
+    internal_net: 10.10.3.0/24
+  gateway_host: ".254"
+  log_dir: lab/logs      # Suricata eve.json lands here, mounted into the gateway

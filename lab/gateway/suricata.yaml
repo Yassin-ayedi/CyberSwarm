@@ -1,0 +1,61 @@
+%YAML 1.1
+---
+# Minimal Suricata config for the lab. Goal: produce eve.json alerts + flow records
+# that the orchestrator reads as Blue's "perception". Not tuned for production.
+
+vars:
+  address-groups:
+    HOME_NET: "[10.10.0.0/16]"
+    EXTERNAL_NET: "any"
+  port-groups:
+    HTTP_PORTS: "5000,3000"
+
+default-log-dir: /var/log/suricata/
+
+outputs:
+  - eve-log:
+      enabled: yes
+      filetype: regular
+      filename: eve.json
+      types:
+        - alert
+        - http:
+            extended: yes     # log method + status code (Blue needs them to spot brute force / scans)
+        - flow
+        - dns
+
+af-packet:
+  - interface: any
+    cluster-id: 99
+    cluster-type: cluster_flow
+    defrag: yes
+
+# Parse app-layer even on flows whose TCP handshake we didn't see. In this routed Docker
+# lab, a SYN port-scan from the attacker leaves half-open entries, and forwarded capture can
+# miss a handshake, so real attacker HTTP looks "midstream". Without this, those flows are
+# never parsed and SQLi/traversal content rules never fire.
+stream:
+  midstream: true
+  async-oneside: true
+  checksum-validation: no
+
+logging:
+  default-log-level: notice
+  outputs:
+    - console:
+        enabled: yes
+
+# Rules: the default ET/open ruleset if present, plus our own lab rules.
+default-rule-path: /etc/suricata/rules
+rule-files:
+  - suricata.rules      # ships with the package
+  - local.rules         # our custom lab signatures (see below)
+
+# Custom signatures for the weaknesses Red targets. Written to /etc/suricata/rules/local.rules
+# by the Dockerfile is cleaner, but keeping them inline-documented here for the report.
+#   alert http any any -> $HOME_NET 5000 (msg:"CS SQLi attempt"; content:"UNION SELECT"; nocase; sid:1000001; rev:1;)
+#   alert http any any -> $HOME_NET 5000 (msg:"CS path traversal"; content:"../"; sid:1000002; rev:1;)
+app-layer:
+  protocols:
+    http:
+      enabled: yes

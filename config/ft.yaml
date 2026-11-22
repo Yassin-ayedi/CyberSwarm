@@ -1,0 +1,40 @@
+# CyberSwarm — the 4th learning method: FINE-TUNED model (QLoRA behavioural cloning of the
+# successful trajectories the other methods produced). Defensive-LLM priority: Blue runs the
+# fine-tuned defender; Red stays on the base model so we isolate "did fine-tuning Blue help".
+# Learning flags are OFF here — the learning is baked into the weights, not injected at runtime.
+run_name: ft_blue
+rounds: 15
+seed: 42
+
+budgets:
+  red_steps: 12
+  blue_steps: 8
+  round_timeout_s: 600
+
+llm:
+  base_url: http://localhost:11434/v1
+  api_key: ollama
+  planner: qwen2.5:14b       # shared default
+  red_model: qwen2.5:14b     # attacker: base model (control)
+  blue_model: qwen-blue-ft   # defender: the fine-tuned adapter, served via Ollama
+  reflector: qwen2.5:14b
+  temperature: 0.3
+  request_timeout_s: 120
+
+learning:
+  reflection: false
+  memory: false
+  debrief: false
+  memory_window: 3
+
+blue:
+  use_ids_model: false
+  allow_code_patches: true
+
+lab:
+  subnets:
+    attacker_net: 10.10.1.0/24
+    dmz_net: 10.10.2.0/24
+    internal_net: 10.10.3.0/24
+  gateway_host: ".254"
+  log_dir: lab/logs
