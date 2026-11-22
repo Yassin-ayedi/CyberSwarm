@@ -1,0 +1,639 @@
+{
+ "meta": {
+  "run": "mvp1",
+  "phase": "eval_scripted_trained",
+  "episode": 0,
+  "lab": "live",
+  "blue_playbook": "- Act on initial CS port scan alerts to block IP early.\n- Monitor for repeated port scanning patterns to identify attackers.\n- Review and act on all sensor alerts promptly, not just visible activity.\n- Inspect all IP behaviors for anomalies, not just flagged ones.\n- Differentiate between benign and malicious port scanning patterns.\n- Act promptly on confirmed port scan alerts to contain the attacker.\n- Monitor for sudden increases in port scan activities from any IP, not just flagged ones.\n- Differentiate between normal customer behavior and attacker patterns by analyzing command usage and frequency.\n- React promptly to multiple SYN scan alerts to contain potential threats faster.\n- React immediately to unusual port scanning activity.\n- Differentiate between persistent and sporadic scanning patterns.\n- Enhance real-time alerting for subtle command-line tool usage.\n- Inspect network behavior patterns rather than individual IPs for anomalies.\n- Raise alerts for unexpected increases in port scan activities across subnets.\n- Contain suspected malicious activities immediately upon detection of pattern anomalies.\n",
+  "red_playbook": "- Analyze network responses more thoroughly before repeated requests.\n- Use more targeted nmap scans to avoid broad detection.\n- Rotate IP addresses or use proxies after initial scans.\n- Refine target selection based on preliminary scan results.\n- Use a proxy to rotate IP addresses before each scan.\n- Scan fewer ports initially to avoid triggering automated blocks.\n- Employ stealth techniques to reduce scan noise and detection risk.\n- Use alternative proxies or IP rotation services to bypass blocking.\n- Focus on specific high-value ports early to avoid broad scans that trigger alerts.\n- Use a smaller, more targeted port range to evade initial blocks.\n- Rotate IP addresses or use a proxy service to maintain access.\n- Adjust timing between scans to blend in with normal network traffic.\n- Use a narrower port range to avoid triggering broad scan detection.\n- Focus on specific targets within the lab network instead of scanning entire subnets.\n- Adjust timing between requests to reduce the frequency of immediate rejections.\n",
+  "started": "2026-11-22 04:43:45"
+ },
+ "scenario": {
+  "seed": 5000,
+  "n_ticks": 14,
+  "attack": true,
+  "attacker": "bruteforce_login",
+  "attacker_ip": "10.10.1.90",
+  "legit_ip": "10.10.1.124",
+  "red_start_tick": 5,
+  "red_ticks": [
+   5,
+   6,
+   7,
+   8,
+   10,
+   11,
+   12
+  ]
+ },
+ "ticks": [
+  {
+   "tick": 0,
+   "red": [],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.235"
+     },
+     "result": "No recorded activity from 10.10.1.235 this episode."
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No activity from 10.10.1.235 to investigate further."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.235": {
+     "requests": 0,
+     "flows": 4,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.124": {
+     "requests": 3,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 1,
+   "red": [],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.235"
+     },
+     "result": "No recorded activity from 10.10.1.235 this episode."
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.235": {
+     "requests": 0,
+     "flows": 6,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.124": {
+     "requests": 12,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 2,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.235": {
+     "requests": 0,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.124": {
+     "requests": 6,
+     "flows": 7,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 3,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.124": {
+     "requests": 6,
+     "flows": 5,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 4,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.124": {
+     "requests": 3,
+     "flows": 5,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 5,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for p in 123456 password admin admin123; do curl -s -o /dev/null -w '%{http_code} ' -m 6 -X POST -H 'Content-Type: application/json' -d \"{\\\"email\\\":\\\"admin@juic"
+     },
+     "reached": true,
+     "result": "401 401 401 200 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.90"
+     },
+     "result": "Last HTTP requests from 10.10.1.90 (4 total this episode):\n  POST /rest/user/login -> 401  ua=curl/8.22.0\n  POST /rest/user/login -> 401  ua=curl/8.22.0\n  POST /rest/user/login -> 401  ua=curl/8.22.0\n  POST /rest/user/login -> 200  ua=curl/8.22.0\nIDS alerts from 10.10.1.90: none"
+    },
+    {
+     "tool": "rate_limit",
+     "args": {
+      "ip": "10.10.1.90",
+      "per_second": 1
+     },
+     "result": "10.10.1.90 limited to 1 new connections per second"
+    },
+    {
+     "tool": "rate_limit",
+     "args": {
+      "ip": "10.10.1.90",
+      "per_second": 1
+     },
+     "result": "Not executed: you already did exactly this earlier; its result is in your history."
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.124": {
+     "requests": 3,
+     "flows": 4,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.90": {
+     "requests": 4,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 3
+    }
+   },
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.90": "rate:1"
+   }
+  },
+  {
+   "tick": 6,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for p in qwerty letmein welcome monkey; do curl -s -o /dev/null -w '%{http_code} ' -m 6 -X POST -H 'Content-Type: application/json' -d \"{\\\"email\\\":\\\"admin@juice"
+     },
+     "reached": true,
+     "result": "401 401 401 401 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.90"
+     },
+     "result": "Last HTTP requests from 10.10.1.90 (8 total this episode):\n  POST /rest/user/login -> 401  ua=curl/8.22.0\n  POST /rest/user/login -> 401  ua=curl/8.22.0\n  POST /rest/user/login -> 401  ua=curl/8.22.0\n  POST /rest/user/login -> 200  ua=curl/8.22.0\n  POST /rest/user/login -> 401  ua=curl/8.22.0\n  POST /rest/user/login -> 401  ua=curl/8.22.0\n  POST /rest/user/login -> 401  ua=curl/8.22.0\n  POST /rest/user/login -> 401  ua=curl/8.22.0\nIDS alerts from 10.10.1.90: none"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "attack_type": "Brute-force attack",
+      "evidence": "Repeated POST /rest/user/login requests with 401 responses, single 200 response.",
+      "ip": "10.10.1.90"
+     },
+     "result": "incident recorded: 10.10.1.90 (Brute-force attack)"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "attack_type": "Brute-force attack",
+      "evidence": "Repeated POST /rest/user/login requests with 401 errors, followed by a single successful login (200 OK).",
+      "ip": "10.10.1.90"
+     },
+     "result": "incident recorded: 10.10.1.90 (Brute-force attack)"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.124": {
+     "requests": 9,
+     "flows": 11,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.90": {
+     "requests": 4,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 4
+    }
+   },
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.90": "rate:1"
+   }
+  },
+  {
+   "tick": 7,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for p in dragon iloveyou princess sunshine; do curl -s -o /dev/null -w '%{http_code} ' -m 6 -X POST -H 'Content-Type: application/json' -d \"{\\\"email\\\":\\\"admin@j"
+     },
+     "reached": true,
+     "result": "401 401 401 401 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.124": {
+     "requests": 12,
+     "flows": 10,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.90": {
+     "requests": 4,
+     "flows": 5,
+     "alerts": 0,
+     "errors": 4
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.90": "rate:1"
+   }
+  },
+  {
+   "tick": 8,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for p in football shadow master abc123; do curl -s -o /dev/null -w '%{http_code} ' -m 6 -X POST -H 'Content-Type: application/json' -d \"{\\\"email\\\":\\\"admin@juice"
+     },
+     "reached": true,
+     "result": "401 401 401 401 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.90"
+     },
+     "result": "all traffic from 10.10.1.90 is now dropped at the gateway"
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.90": {
+     "requests": 4,
+     "flows": 1,
+     "alerts": 0,
+     "errors": 4
+    },
+    "10.10.1.124": {
+     "requests": 6,
+     "flows": 9,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.90": "block"
+   }
+  },
+  {
+   "tick": 9,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.124": {
+     "requests": 6,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.90": {
+     "requests": 0,
+     "flows": 4,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.90": "block"
+   }
+  },
+  {
+   "tick": 10,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for p in 123456 password admin admin123; do curl -s -o /dev/null -w '%{http_code} ' -m 6 -X POST -H 'Content-Type: application/json' -d \"{\\\"email\\\":\\\"admin@juic"
+     },
+     "reached": false,
+     "result": "000 000 000 000 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.124": {
+     "requests": 27,
+     "flows": 30,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.90": {
+     "requests": 0,
+     "flows": 4,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 10,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.90": "block"
+   }
+  },
+  {
+   "tick": 11,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for p in qwerty letmein welcome monkey; do curl -s -o /dev/null -w '%{http_code} ' -m 6 -X POST -H 'Content-Type: application/json' -d \"{\\\"email\\\":\\\"admin@juice"
+     },
+     "reached": false,
+     "result": "000 000 000 000 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.124": {
+     "requests": 27,
+     "flows": 26,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.90": {
+     "requests": 0,
+     "flows": 4,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 10,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.90": "block"
+   }
+  },
+  {
+   "tick": 12,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for p in dragon iloveyou princess sunshine; do curl -s -o /dev/null -w '%{http_code} ' -m 6 -X POST -H 'Content-Type: application/json' -d \"{\\\"email\\\":\\\"admin@j"
+     },
+     "reached": false,
+     "result": "000 000 000 000 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.124": {
+     "requests": 27,
+     "flows": 28,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.90": {
+     "requests": 0,
+     "flows": 4,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 9,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.90": "block"
+   }
+  },
+  {
+   "tick": 13,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.124": {
+     "requests": 3,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.90": "block"
+   }
+  }
+ ],
+ "status": "done",
+ "result": {
+  "attack": true,
+  "attacker": "bruteforce_login",
+  "attack_start": 5,
+  "detected": true,
+  "detect_tick": 5,
+  "time_to_detect": 0,
+  "contained": true,
+  "contain_tick": 5,
+  "time_to_contain": 0,
+  "containment": "block",
+  "red_actions": 7,
+  "red_actions_reached": 4,
+  "reached_after_contain": 3,
+  "challenges_solved": [
+   "loginAdminChallenge",
+   "weakPasswordChallenge"
+  ],
+  "flag_captured": false,
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 61,
+  "legit_fail": 0,
+  "availability": 1.0,
+  "blue_reward": 10.0,
+  "red_reward": 7.0
+ }
+}

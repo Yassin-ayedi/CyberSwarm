@@ -1,0 +1,795 @@
+{
+ "meta": {
+  "run": "mvp2",
+  "phase": "eval_scripted_untrained",
+  "episode": 1,
+  "lab": "live",
+  "blue_playbook": "",
+  "red_playbook": "- Use a more diverse set of IP addresses to evade rate limiting.\n- Scan fewer ports at once to reduce the likelihood of triggering defensive measures.\n- Employ stealthier scanning techniques to minimize detection risk.\n- Use more diverse scanning techniques to evade initial detection.\n- Rotate IP addresses proactively before being blocked.\n- Analyze network responses to refine targets and reduce noise.\n- Use more targeted port scans to reduce noise.\n- Vary timing between requests to avoid pattern recognition.\n- Employ stealthier tools to minimize detection risk.\n- Rotate IP addresses more frequently to stay ahead of blocking.\n- Focus on fewer, more strategic HTTP requests to avoid detection.\n",
+  "started": "2026-11-22 07:08:14"
+ },
+ "scenario": {
+  "seed": 5001,
+  "n_ticks": 18,
+  "attack": true,
+  "attacker": "slow_scan",
+  "attacker_ip": "10.10.1.176",
+  "legit_ip": "10.10.1.106",
+  "red_start_tick": 6,
+  "red_ticks": [
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   15,
+   16
+  ],
+  "spare_ips": [
+   "10.10.1.191",
+   "10.10.1.139",
+   "10.10.1.220"
+  ]
+ },
+ "ticks": [
+  {
+   "tick": 0,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 3,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 1,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 3,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 2,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 3,
+     "flows": 1,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 1,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 3,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 3,
+     "flows": 1,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 1,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 4,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 3,
+     "flows": 4,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 5,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 3,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 6,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 20-25 10.10.2.11"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:09 +0000\nNmap scan report for 10.10.2.11\nHost is up (0.000022s latency).\n\nPORT   STATE  SERVICE\n20/tcp closed ftp-data\n21/tcp closed ftp\n22/tcp closed ssh\n23/tcp closed telnet\n24/tcp closed priv-mail\n25/tcp closed smtp\n\nNmap done: 1 IP address (1 host up) scanned in 9.15 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 12,
+     "flows": 14,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 5,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 7,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 80-90 10.10.2.10"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:09 +0000\nNmap scan report for 10.10.2.10\nHost is up (0.000069s latency).\n\nPORT   STATE  SERVICE\n80/tcp closed http\n81/tcp closed hosts2-ns\n82/tcp closed xfer\n83/tcp closed mit-ml-dev\n84/tcp closed ctf\n85/tcp closed mit-ml-dev\n86/tcp closed mfcobol\n87/tcp closed priv-term-l\n88/tcp closed kerberos-sec\n89/tcp closed su-mit-tg\n90/tcp closed dns"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.176"
+     },
+     "result": "No recorded activity from 10.10.1.176 this episode."
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "Continuing to monitor suspicious activity from 10.10.1.176."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 15,
+     "flows": 10,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 6,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 6,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 8,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 440-445 10.10.2.11"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:09 +0000\nNmap scan report for 10.10.2.11\nHost is up (0.000056s latency).\n\nPORT    STATE  SERVICE\n440/tcp closed sgcp\n441/tcp closed decvms-sysmgt\n442/tcp closed cvc_hostd\n443/tcp closed https\n444/tcp closed snpp\n445/tcp closed microsoft-ds\n\nNmap done: 1 IP address (1 host up) scanned in 6.92 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 12,
+     "flows": 18,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 15,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 9,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 2999-3001 10.10.2.10"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:09 +0000\nNmap scan report for 10.10.2.10\nHost is up (0.000028s latency).\n\nPORT     STATE  SERVICE\n2999/tcp closed remoteware-un\n3000/tcp closed ppp\n3001/tcp closed nessus\n\nNmap done: 1 IP address (1 host up) scanned in 5.72 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.176"
+     },
+     "result": "No recorded activity from 10.10.1.176 this episode."
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "Continuing to monitor suspicious activity from 10.10.1.176."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 12,
+     "flows": 9,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 10,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 6,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 10,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 4999-5001 10.10.2.11"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:10 +0000\nNmap scan report for 10.10.2.11\nHost is up (0.000019s latency).\n\nPORT     STATE  SERVICE\n4999/tcp closed hfcs-manager\n5000/tcp closed upnp\n5001/tcp closed commplex-link\n\nNmap done: 1 IP address (1 host up) scanned in 5.72 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 9,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.106": {
+     "requests": 15,
+     "flows": 12,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 11,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 8000-8090 10.10.2.10"
+     },
+     "reached": false,
+     "outcome": "no_answer",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:10 +0000\nNmap scan report for 10.10.2.10\nHost is up (0.000023s latency).\nAll 91 scanned ports on 10.10.2.10 are in ignored states.\nNot shown: 91 closed tcp ports (conn-refused)\n\nNmap done: 1 IP address (1 host up) scanned in 46.80 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "Continuing to monitor suspicious activity from 10.10.1.176."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 45,
+     "flows": 49,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 94,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 16,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 12,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 3306,5432 10.10.2.11"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:11 +0000\nNmap scan report for 10.10.2.11\nHost is up (0.000028s latency).\n\nPORT     STATE  SERVICE\n3306/tcp closed mysql\n5432/tcp closed postgresql\n\nNmap done: 1 IP address (1 host up) scanned in 5.32 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 21,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.106": {
+     "requests": 6,
+     "flows": 8,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 13,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 22,21,23 10.10.2.10"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:11 +0000\nNmap scan report for 10.10.2.10\nHost is up (0.000021s latency).\n\nPORT   STATE  SERVICE\n21/tcp closed ftp\n22/tcp closed ssh\n23/tcp closed telnet\n\nNmap done: 1 IP address (1 host up) scanned in 5.72 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "Continuing to monitor the network for any suspicious activity."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 12,
+     "flows": 8,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 14,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 20-25 10.10.2.11"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:11 +0000\nNmap scan report for 10.10.2.11\nHost is up (0.000015s latency).\n\nPORT   STATE  SERVICE\n20/tcp closed ftp-data\n21/tcp closed ftp\n22/tcp closed ssh\n23/tcp closed telnet\n24/tcp closed priv-mail\n25/tcp closed smtp\n\nNmap done: 1 IP address (1 host up) scanned in 6.92 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "Continuing to monitor the network for any suspicious activity."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 5,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.106": {
+     "requests": 12,
+     "flows": 13,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 15,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 80-90 10.10.2.10"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:11 +0000\nNmap scan report for 10.10.2.10\nHost is up (0.000053s latency).\n\nPORT   STATE  SERVICE\n80/tcp closed http\n81/tcp closed hosts2-ns\n82/tcp closed xfer\n83/tcp closed mit-ml-dev\n84/tcp closed ctf\n85/tcp closed mit-ml-dev\n86/tcp closed mfcobol\n87/tcp closed priv-term-l\n88/tcp closed kerberos-sec\n89/tcp closed su-mit-tg\n90/tcp closed dns"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "Continuing to monitor the network for any suspicious activity."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 12,
+     "flows": 11,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 12,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 6,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 16,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "nmap -Pn -sT --scan-delay 400ms --max-retries 1 -p 440-445 10.10.2.11"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 06:11 +0000\nNmap scan report for 10.10.2.11\nHost is up (0.000036s latency).\n\nPORT    STATE  SERVICE\n440/tcp closed sgcp\n441/tcp closed decvms-sysmgt\n442/tcp closed cvc_hostd\n443/tcp closed https\n444/tcp closed snpp\n445/tcp closed microsoft-ds\n\nNmap done: 1 IP address (1 host up) scanned in 9.65 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "Continuing to monitor the network for any suspicious activity."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.106": {
+     "requests": 12,
+     "flows": 13,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 18,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 5,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 17,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "Continuing to monitor the network for any suspicious activity."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.176": {
+     "requests": 0,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.106": {
+     "requests": 3,
+     "flows": 6,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.176",
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  }
+ ],
+ "status": "done",
+ "result": {
+  "attack": true,
+  "attacker": "slow_scan",
+  "attack_start": 6,
+  "attacker_ips": [
+   "10.10.1.176"
+  ],
+  "detected": false,
+  "detect_tick": null,
+  "time_to_detect": null,
+  "contained": false,
+  "contain_tick": null,
+  "time_to_contain": null,
+  "ip_changes": [],
+  "reblocked": 0,
+  "shut_out_at_end": false,
+  "exposure_ticks": 12,
+  "containment": null,
+  "red_actions": 11,
+  "red_actions_reached": 10,
+  "reached_after_contain": 0,
+  "challenges_solved": [],
+  "flag_captured": false,
+  "red_outcomes": {
+   "answered": 10,
+   "no_answer": 1
+  },
+  "waf_patterns": [],
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 75,
+  "legit_fail": 0,
+  "availability": 1.0,
+  "blue_reward": -12.0,
+  "red_reward": 5.0
+ }
+}

@@ -1,0 +1,10 @@
+{
+ "created": "2026-11-22 06:19:05",
+ "notes": "Attacker can change address (3x per episode, scripted attacks move after 2 blocks). Defender has a WAF (block_pattern). Clear attacker outcomes, range scans, 2 attacker actions per tick, fully independent episodes, early end when shut out, untrained baseline.",
+ "settings": {
+  "train_episodes": 5,
+  "test_episodes": 5,
+  "ticks": 18,
+  "baseline": true
+ }
+}

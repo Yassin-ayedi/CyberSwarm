@@ -1,0 +1,3 @@
+- Respond immediately to the first sign of a port scan.
+- Monitor for repeated HTTP requests to unusual ports as potential indicators of further probing.
+- Ensure continuous inspection for anomalies after initial containment to prevent follow-up attacks.

@@ -1,0 +1,47 @@
+[
+ {
+  "episode": 1,
+  "file": "ep_001.json",
+  "scenario": {
+   "seed": 1001,
+   "n_ticks": 14,
+   "attack": true,
+   "attacker": "llm",
+   "attacker_ip": "10.10.1.234",
+   "legit_ip": "10.10.1.45",
+   "red_start_tick": 3,
+   "red_ticks": [
+    3,
+    5,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13
+   ]
+  },
+  "attack": true,
+  "attacker": "llm",
+  "attack_start": 3,
+  "detected": true,
+  "detect_tick": 3,
+  "time_to_detect": 0,
+  "contained": true,
+  "contain_tick": 3,
+  "time_to_contain": 0,
+  "containment": "block",
+  "red_actions": 5,
+  "red_actions_reached": 1,
+  "reached_after_contain": 0,
+  "challenges_solved": [],
+  "flag_captured": false,
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 53,
+  "legit_fail": 0,
+  "availability": 1.0,
+  "blue_reward": 20.0,
+  "red_reward": -4.5
+ }
+]

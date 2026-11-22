@@ -1,0 +1,10 @@
+{
+ "created": "2026-11-22 04:34:00",
+ "notes": "First group. Recorded BEFORE the ghost-traffic fix: some false alarms come from the previous episode's connections. Untrained baseline not run.",
+ "settings": {
+  "train_episodes": 8,
+  "test_episodes": 8,
+  "ticks": 14,
+  "baseline": false
+ }
+}

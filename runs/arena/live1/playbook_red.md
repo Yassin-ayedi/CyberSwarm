@@ -1,0 +1,3 @@
+- Use a variety of IP addresses to evade initial blocking.
+- Scan less frequently to avoid triggering rapid detection.
+- Employ stealth techniques before making HTTP requests.

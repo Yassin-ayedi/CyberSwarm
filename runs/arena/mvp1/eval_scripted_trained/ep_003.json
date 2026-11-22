@@ -1,0 +1,666 @@
+{
+ "meta": {
+  "run": "mvp1",
+  "phase": "eval_scripted_trained",
+  "episode": 3,
+  "lab": "live",
+  "blue_playbook": "- Act on initial CS port scan alerts to block IP early.\n- Monitor for repeated port scanning patterns to identify attackers.\n- Review and act on all sensor alerts promptly, not just visible activity.\n- Inspect all IP behaviors for anomalies, not just flagged ones.\n- Differentiate between benign and malicious port scanning patterns.\n- Act promptly on confirmed port scan alerts to contain the attacker.\n- Monitor for sudden increases in port scan activities from any IP, not just flagged ones.\n- Differentiate between normal customer behavior and attacker patterns by analyzing command usage and frequency.\n- React promptly to multiple SYN scan alerts to contain potential threats faster.\n- React immediately to unusual port scanning activity.\n- Differentiate between persistent and sporadic scanning patterns.\n- Enhance real-time alerting for subtle command-line tool usage.\n- Inspect network behavior patterns rather than individual IPs for anomalies.\n- Raise alerts for unexpected increases in port scan activities across subnets.\n- Contain suspected malicious activities immediately upon detection of pattern anomalies.\n",
+  "red_playbook": "- Analyze network responses more thoroughly before repeated requests.\n- Use more targeted nmap scans to avoid broad detection.\n- Rotate IP addresses or use proxies after initial scans.\n- Refine target selection based on preliminary scan results.\n- Use a proxy to rotate IP addresses before each scan.\n- Scan fewer ports initially to avoid triggering automated blocks.\n- Employ stealth techniques to reduce scan noise and detection risk.\n- Use alternative proxies or IP rotation services to bypass blocking.\n- Focus on specific high-value ports early to avoid broad scans that trigger alerts.\n- Use a smaller, more targeted port range to evade initial blocks.\n- Rotate IP addresses or use a proxy service to maintain access.\n- Adjust timing between scans to blend in with normal network traffic.\n- Use a narrower port range to avoid triggering broad scan detection.\n- Focus on specific targets within the lab network instead of scanning entire subnets.\n- Adjust timing between requests to reduce the frequency of immediate rejections.\n",
+  "started": "2026-11-22 04:52:31"
+ },
+ "scenario": {
+  "seed": 5003,
+  "n_ticks": 14,
+  "attack": true,
+  "attacker": "dir_bust",
+  "attacker_ip": "10.10.1.71",
+  "legit_ip": "10.10.1.227",
+  "red_start_tick": 4,
+  "red_ticks": [
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11
+  ]
+ },
+ "ticks": [
+  {
+   "tick": 0,
+   "red": [],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.227"
+     },
+     "result": "Last HTTP requests from 10.10.1.227 (3 total this episode):\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q= -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\nIDS alerts from 10.10.1.227: none"
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "Initial activity appears normal and legitimate."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 3,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 1,
+   "red": [],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.96"
+     },
+     "result": "No recorded activity from 10.10.1.96 this episode."
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 0,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.227": {
+     "requests": 6,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 2,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No new suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 3,
+     "flows": 9,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.96": {
+     "requests": 0,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.194": {
+     "requests": 0,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 3,
+   "red": [],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.227"
+     },
+     "result": "Last HTTP requests from 10.10.1.227 (18 total this episode):\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q=apple -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q= -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q= -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /re"
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed from 10.10.1.227, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 6,
+     "flows": 1,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 4,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "gobuster dir -u http://10.10.2.11:3000 -w $WORDLIST -q -t 10 --timeout 5s -s 200,301,302,401,403 -b '' --exclude-length 0 2>&1 | head -n 25"
+     },
+     "reached": true,
+     "result": "2026/11/22 03:53:13 the server returns a status code that matches the provided options for non existing urls. http://10.10.2.11:3000/10fde722-76b8-4d8a-9f42-332b62897b1d => 200 (Length: 3748). Please exclude the response length or the status code or set the wildcard option.. To continue please exclude the status code or the length\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No new suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 6,
+     "flows": 6,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.71": {
+     "requests": 2,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 5,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for w in $(shuf -n 25 $WORDLIST); do curl -s -o /dev/null -w '%{http_code} ' -m 4 http://10.10.2.11:3000/$w; done"
+     },
+     "reached": true,
+     "result": "200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.71"
+     },
+     "result": "Last HTTP requests from 10.10.1.71 (27 total this episode):\n  GET /ia -> 200  ua=curl/8.22.0\n  GET /ext -> 200  ua=curl/8.22.0\n  GET /v1 -> 200  ua=curl/8.22.0\n  GET /printers -> 200  ua=curl/8.22.0\n  GET /communications -> 200  ua=curl/8.22.0\n  GET /zoeken -> 200  ua=curl/8.22.0\n  GET /photo -> 200  ua=curl/8.22.0\n  GET /12 -> 200  ua=curl/8.22.0\n  GET /administrator -> 200  ua=curl/8.22.0\n  GET /banner_element -> 200  ua=curl/8.22.0\n  GET /joinrequests -> 200  ua=curl/8.22.0\n  GET /option -> 200  ua=curl/8.22.0\nIDS alerts from 10.10.1.71: CS port scan (many SYN) x1"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "evidence": "CS port scan (many SYN) and HTTP requests targeting sensitive paths using curl.",
+      "ip": "10.10.1.71",
+      "attack_type": "Port Scan and Suspicious HTTP Requests"
+     },
+     "result": "incident recorded: 10.10.1.71 (Port Scan and Suspicious HTTP Requests)"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "ip": "10.10.1.71",
+      "attack_type": "Port Scan and Suspicious HTTP Requests",
+      "evidence": "CS port scan (many SYN) and suspicious HTTP requests using curl to sensitive paths."
+     },
+     "result": "incident recorded: 10.10.1.71 (Port Scan and Suspicious HTTP Requests)"
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.71",
+     "signature": "CS port scan (many SYN)",
+     "count": 1
+    }
+   ],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 6,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.71": {
+     "requests": 25,
+     "flows": 0,
+     "alerts": 1,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 6,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for w in $(shuf -n 25 $WORDLIST); do curl -s -o /dev/null -w '%{http_code} ' -m 4 http://10.10.2.11:3000/$w; done"
+     },
+     "reached": true,
+     "result": "200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 200 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.71"
+     },
+     "result": "all traffic from 10.10.1.71 is now dropped at the gateway"
+    },
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.71"
+     },
+     "result": "Not executed: you already did exactly this earlier; its result is in your history."
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No new suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.71",
+     "signature": "CS port scan (many SYN)",
+     "count": 1
+    }
+   ],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 9,
+     "flows": 14,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.71": {
+     "requests": 25,
+     "flows": 19,
+     "alerts": 1,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.71": "block"
+   }
+  },
+  {
+   "tick": 7,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for w in $(shuf -n 25 $WORDLIST); do curl -s -o /dev/null -w '%{http_code} ' -m 4 http://10.10.2.11:3000/$w; done"
+     },
+     "reached": false,
+     "result": "000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No new suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.71": {
+     "requests": 0,
+     "flows": 40,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.227": {
+     "requests": 72,
+     "flows": 70,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 24,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.71": "block"
+   }
+  },
+  {
+   "tick": 8,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for w in $(shuf -n 25 $WORDLIST); do curl -s -o /dev/null -w '%{http_code} ' -m 4 http://10.10.2.11:3000/$w; done"
+     },
+     "reached": false,
+     "result": "000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No new suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 75,
+     "flows": 73,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.71": {
+     "requests": 0,
+     "flows": 17,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 25,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.71": "block"
+   }
+  },
+  {
+   "tick": 9,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for w in $(shuf -n 25 $WORDLIST); do curl -s -o /dev/null -w '%{http_code} ' -m 4 http://10.10.2.11:3000/$w; done"
+     },
+     "reached": false,
+     "result": "000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No new suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 63,
+     "flows": 67,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.71": {
+     "requests": 0,
+     "flows": 17,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 22,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.71": "block"
+   }
+  },
+  {
+   "tick": 10,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for w in $(shuf -n 25 $WORDLIST); do curl -s -o /dev/null -w '%{http_code} ' -m 4 http://10.10.2.11:3000/$w; done"
+     },
+     "reached": false,
+     "result": "000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No new suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 78,
+     "flows": 71,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.71": {
+     "requests": 0,
+     "flows": 18,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 26,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.71": "block"
+   }
+  },
+  {
+   "tick": 11,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "for w in $(shuf -n 25 $WORDLIST); do curl -s -o /dev/null -w '%{http_code} ' -m 4 http://10.10.2.11:3000/$w; done"
+     },
+     "reached": false,
+     "result": "000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 000 "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No new suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 72,
+     "flows": 74,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.71": {
+     "requests": 0,
+     "flows": 16,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 23,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.71": "block"
+   }
+  },
+  {
+   "tick": 12,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No new suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.227": {
+     "requests": 3,
+     "flows": 8,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.71": {
+     "requests": 0,
+     "flows": 1,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 1,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.71": "block"
+   }
+  },
+  {
+   "tick": 13,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No new suspicious activity observed, continuing to monitor."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.71": {
+     "requests": 0,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.227": {
+     "requests": 3,
+     "flows": 4,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.71": "block"
+   }
+  }
+ ],
+ "status": "done",
+ "result": {
+  "attack": true,
+  "attacker": "dir_bust",
+  "attack_start": 4,
+  "detected": true,
+  "detect_tick": 5,
+  "time_to_detect": 1,
+  "contained": true,
+  "contain_tick": 6,
+  "time_to_contain": 2,
+  "containment": "block",
+  "red_actions": 8,
+  "red_actions_reached": 3,
+  "reached_after_contain": 0,
+  "challenges_solved": [],
+  "flag_captured": false,
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 141,
+  "legit_fail": 0,
+  "availability": 1.0,
+  "blue_reward": 18.0,
+  "red_reward": -3.5
+ }
+}

@@ -1,0 +1,15 @@
+- Act on initial CS port scan alerts to block IP early.
+- Monitor for repeated port scanning patterns to identify attackers.
+- Review and act on all sensor alerts promptly, not just visible activity.
+- Inspect all IP behaviors for anomalies, not just flagged ones.
+- Differentiate between benign and malicious port scanning patterns.
+- Act promptly on confirmed port scan alerts to contain the attacker.
+- Monitor for sudden increases in port scan activities from any IP, not just flagged ones.
+- Differentiate between normal customer behavior and attacker patterns by analyzing command usage and frequency.
+- React promptly to multiple SYN scan alerts to contain potential threats faster.
+- React immediately to unusual port scanning activity.
+- Differentiate between persistent and sporadic scanning patterns.
+- Enhance real-time alerting for subtle command-line tool usage.
+- Inspect network behavior patterns rather than individual IPs for anomalies.
+- Raise alerts for unexpected increases in port scan activities across subnets.
+- Contain suspected malicious activities immediately upon detection of pattern anomalies.

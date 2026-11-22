@@ -1,0 +1,15 @@
+- Respond immediately to initial signs of port scanning.
+- Differentiate between normal and suspicious HTTP requests by context and frequency.
+- Update block lists dynamically to catch IP address changes proactively.
+- Respond to initial signs of port scanning immediately, even without clear evidence.
+- Monitor for repeated IP address changes as a tactic to evade detection.
+- Differentiate between persistent and sporadic scanning behaviors to identify true threats.
+- Monitor baseline traffic patterns closely to distinguish between normal and unusual behaviors.
+- Look for deviations in request frequency and types to identify potential threats early.
+- Avoid unnecessary inspections unless clear signs of suspicious activity emerge.
+- React immediately to port scan alerts by inspecting and blocking IPs.
+- Monitor for rapid IP address changes as a sign of evasion tactics.
+- Inspect user-agent strings for anomalies indicative of automated tools.
+- Monitor for sudden increases in HTTP GET requests from a single IP as it may indicate data gathering.
+- Raise alerts for repeated port scans, even if no immediate intrusion is detected.
+- Avoid false positives by confirming suspicious behavior with multiple indicators before blocking IPs.

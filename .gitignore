@@ -1,5 +1,7 @@
-# per-run outputs
-runs/
+# per-run outputs: the old pipeline's runs stay local, but the arena experiments are shared
+# so a teammate can open the dashboard without running the lab (runs/arena, about 5 MB)
+runs/*
+!runs/arena/
 lab/logs/
 report/figures/
 *.pcap
@@ -18,6 +20,5 @@ venv/
 _stale_runs/
 *.log
 
-# trained LoRA adapters (large binaries; kept locally)
+# trained LoRA adapters (263 MB each; GitHub rejects files over 100 MB, share them another way)
 ml/adapters/
-ml/arena_data/

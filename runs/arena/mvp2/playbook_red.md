@@ -1,0 +1,11 @@
+- Use a more diverse set of IP addresses to evade rate limiting.
+- Scan fewer ports at once to reduce the likelihood of triggering defensive measures.
+- Employ stealthier scanning techniques to minimize detection risk.
+- Use more diverse scanning techniques to evade initial detection.
+- Rotate IP addresses proactively before being blocked.
+- Analyze network responses to refine targets and reduce noise.
+- Use more targeted port scans to reduce noise.
+- Vary timing between requests to avoid pattern recognition.
+- Employ stealthier tools to minimize detection risk.
+- Rotate IP addresses more frequently to stay ahead of blocking.
+- Focus on fewer, more strategic HTTP requests to avoid detection.

@@ -1,0 +1,36 @@
+{
+ "live1": {
+  "train": {
+   "episodes": 1,
+   "live": null
+  }
+ },
+ "mvp1": {
+  "train": {
+   "episodes": 8,
+   "live": null
+  },
+  "eval_scripted_trained": {
+   "episodes": 8,
+   "live": null
+  }
+ },
+ "mvp2": {
+  "train": {
+   "episodes": 5,
+   "live": null
+  },
+  "eval_scripted_trained": {
+   "episodes": 5,
+   "live": null
+  },
+  "eval_scripted_untrained": {
+   "episodes": 5,
+   "live": null
+  },
+  "eval_scripted_finetuned": {
+   "episodes": 5,
+   "live": null
+  }
+ }
+}

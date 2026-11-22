@@ -1,0 +1,678 @@
+{
+ "meta": {
+  "run": "mvp1",
+  "phase": "train",
+  "episode": 3,
+  "lab": "live",
+  "blue_playbook": "- Monitor for sudden increases in port scan activities across multiple targets.\n- Block IPs showing repeated port scan attempts to prevent further reconnaissance.\n- Review and respond promptly to CS port scan alerts to contain the threat faster.\n- Identify sudden increases in port scanning activity as potential attack vectors.\n- Differentiate between blocked attacker IPs and legitimate customer behavior before taking action.\n- Respond immediately to the first sign of a port scan to contain the attacker faster.\n- Monitor for sudden changes in network scanning behavior.\n- Differentiate between automated scans and legitimate customer requests by URL and frequency.\n- Contain suspected malicious activity immediately upon detection of port scans or unusual HTTP requests.\n",
+  "red_playbook": "- Use a range of IP addresses for scanning to avoid getting a single address blocked.\n- Employ stealth techniques like slow scanning to reduce detection risk.\n- Vary the timing and type of requests to bypass simple rate-limiting defenses.\n- Use slower, stealthier scanning techniques to avoid early detection.\n- Vary IP addresses or use proxies to maintain access and evade blocks.\n- Focus on specific targets with limited scans after initial reconnaissance.\n- Use a broader range of initial reconnaissance tools to gather intelligence.\n- Rotate IP addresses or use proxies to evade blocking by defenders.\n- Analyze network responses more thoroughly before repeated requests.\n",
+  "started": "2026-11-22 04:26:57"
+ },
+ "scenario": {
+  "seed": 1003,
+  "n_ticks": 14,
+  "attack": true,
+  "attacker": "llm",
+  "attacker_ip": "10.10.1.158",
+  "legit_ip": "10.10.1.174",
+  "red_start_tick": 5,
+  "red_ticks": [
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13
+  ]
+ },
+ "ticks": [
+  {
+   "tick": 0,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.183": {
+     "requests": 0,
+     "flows": 5,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.174": {
+     "requests": 3,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 1,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.174": {
+     "requests": 3,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.183": {
+     "requests": 0,
+     "flows": 1,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 2,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.174": {
+     "requests": 6,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.183": {
+     "requests": 0,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.164": {
+     "requests": 0,
+     "flows": 1,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 3,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.174": {
+     "requests": 3,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 4,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.174": {
+     "requests": 6,
+     "flows": 5,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 5,
+   "red": [
+    {
+     "tool": "run_command",
+     "args": {
+      "command": "nmap -sS -n -Pn -p- 10.10.2.2-10.10.2.10 -oG - | grep open | cut -d ' ' -f 2,5-7 | sort -u"
+     },
+     "reached": true,
+     "result": "Failed to resolve \"10.10.2.2-10.10.2.10\".\nWARNING: No targets were specified, so 0 hosts scanned.\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.174": {
+     "requests": 9,
+     "flows": 11,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.158": {
+     "requests": 0,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 6,
+   "red": [
+    {
+     "tool": "run_command",
+     "args": {
+      "command": "nmap -sS -n -Pn -p1-100 10.10.2.2-10.10.2.5 -oG - | grep open | cut -d ' ' -f 2"
+     },
+     "reached": true,
+     "result": "Failed to resolve \"10.10.2.2-10.10.2.5\".\nWARNING: No targets were specified, so 0 hosts scanned.\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.158": {
+     "requests": 0,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.174": {
+     "requests": 9,
+     "flows": 15,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 7,
+   "red": [
+    {
+     "tool": "run_command",
+     "args": {
+      "command": "nmap -sS -n -Pn -p1-100 10.10.2.2-10.10.2.5"
+     },
+     "reached": false,
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 03:28 +0000\nNmap done: 0 IP addresses (0 hosts up) scanned in 4.52 seconds\nFailed to resolve \"10.10.2.2-10.10.2.5\".\nWARNING: No targets were specified, so 0 hosts scanned.\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.158": {
+     "requests": 0,
+     "flows": 1,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.174": {
+     "requests": 13,
+     "flows": 7,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 6,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 8,
+   "red": [
+    {
+     "tool": "run_command",
+     "args": {
+      "command": "nmap -sS -n -Pn -p1-100 10.10.2.2"
+     },
+     "reached": true,
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 03:28 +0000\nNmap scan report for 10.10.2.2\nHost is up (3.0s latency).\nAll 100 scanned ports on 10.10.2.2 are in ignored states.\nNot shown: 100 filtered tcp ports (host-unreach)\n\nNmap done: 1 IP address (1 host up) scanned in 12.35 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.158"
+     },
+     "result": "Last HTTP requests from 10.10.1.158 (0 total this episode):\nIDS alerts from 10.10.1.158: CS port scan (many SYN) x2"
+    },
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.158"
+     },
+     "result": "all traffic from 10.10.1.158 is now dropped at the gateway"
+    },
+    {
+     "tool": "block_ip",
+     "args": {
+      "ip": "10.10.1.158"
+     },
+     "result": "Not executed: you already did exactly this earlier; its result is in your history."
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.158",
+     "signature": "CS port scan (many SYN)",
+     "count": 2
+    }
+   ],
+   "sources": {
+    "10.10.1.158": {
+     "requests": 0,
+     "flows": 19,
+     "alerts": 2,
+     "errors": 0
+    },
+    "10.10.1.174": {
+     "requests": 17,
+     "flows": 21,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 8,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.158": "block"
+   }
+  },
+  {
+   "tick": 9,
+   "red": [
+    {
+     "tool": "run_command",
+     "args": {
+      "command": "nmap -sS -n -Pn -p1-100 10.10.2.6-10.10.2.10"
+     },
+     "reached": false,
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 03:28 +0000\nNmap done: 0 IP addresses (0 hosts up) scanned in 4.51 seconds\nFailed to resolve \"10.10.2.6-10.10.2.10\".\nWARNING: No targets were specified, so 0 hosts scanned.\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.158": {
+     "requests": 0,
+     "flows": 16,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.174": {
+     "requests": 18,
+     "flows": 17,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 4,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.158": "block"
+   }
+  },
+  {
+   "tick": 10,
+   "red": [
+    {
+     "tool": "run_command",
+     "args": {
+      "command": "nmap -sS -n -Pn -p1-100 10.10.2.3"
+     },
+     "reached": true,
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 03:28 +0000\nNmap scan report for 10.10.2.3\nHost is up.\nAll 100 scanned ports on 10.10.2.3 are in ignored states.\nNot shown: 100 filtered tcp ports (no-response)\n\nNmap done: 1 IP address (1 host up) scanned in 23.79 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.158",
+     "signature": "CS port scan (many SYN)",
+     "count": 5
+    }
+   ],
+   "sources": {
+    "10.10.1.158": {
+     "requests": 0,
+     "flows": 134,
+     "alerts": 5,
+     "errors": 0
+    },
+    "10.10.1.174": {
+     "requests": 30,
+     "flows": 26,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 11,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.158": "block"
+   }
+  },
+  {
+   "tick": 11,
+   "red": [
+    {
+     "tool": "scan_ports",
+     "args": {
+      "target": "10.10.2.2"
+     },
+     "reached": false,
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 03:29 +0000\nNmap scan report for 10.10.2.2\nHost is up.\nAll 100 scanned ports on 10.10.2.2 are in ignored states.\nNot shown: 100 filtered tcp ports (no-response)\n\nNmap done: 1 IP address (1 host up) scanned in 18.33 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "thought": "Based on the recent activity, 10.10.1.158 has been repeatedly triggering CS port scan alerts, indicating potential malicious behavior. I've already blocked this IP to prevent further reconnaissance activities.\n\nNo other suspicious activity has been observed from other sources. The traffic from 10.10.1.174 appears to be normal customer activity, with no unusual paths or error codes.\n\nSince 10.10.1."
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.158",
+     "signature": "CS port scan (many SYN)",
+     "count": 3
+    }
+   ],
+   "sources": {
+    "10.10.1.174": {
+     "requests": 24,
+     "flows": 24,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.158": {
+     "requests": 0,
+     "flows": 146,
+     "alerts": 3,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 9,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.158": "block"
+   }
+  },
+  {
+   "tick": 12,
+   "red": [
+    {
+     "tool": "scan_ports",
+     "args": {
+      "target": "10.10.2.3",
+      "ports": "1-20"
+     },
+     "reached": false,
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 03:29 +0000\nNmap scan report for 10.10.2.3\nHost is up.\nAll 100 scanned ports on 10.10.2.3 are in ignored states.\nNot shown: 100 filtered tcp ports (no-response)\n\nNmap done: 1 IP address (1 host up) scanned in 18.40 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "raise_alert",
+     "args": {
+      "attack_type": "Port Scan",
+      "evidence": "Repeated CS port scan alerts and high number of flows to various destination ports.",
+      "ip": "10.10.1.158"
+     },
+     "result": "incident recorded: 10.10.1.158 (Port Scan)"
+    },
+    {
+     "tool": "raise_alert",
+     "args": {
+      "attack_type": "Port Scan",
+      "evidence": "Repeated CS port scan alerts (many SYN) and high number of flows targeting various destination ports.",
+      "ip": "10.10.1.158"
+     },
+     "result": "incident recorded: 10.10.1.158 (Port Scan)"
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "10.10.1.158 is already blocked and no other suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.158",
+     "signature": "CS port scan (many SYN)",
+     "count": 3
+    }
+   ],
+   "sources": {
+    "10.10.1.158": {
+     "requests": 0,
+     "flows": 203,
+     "alerts": 3,
+     "errors": 0
+    },
+    "10.10.1.174": {
+     "requests": 24,
+     "flows": 30,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 11,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.158": "block"
+   }
+  },
+  {
+   "tick": 13,
+   "red": [
+    {
+     "tool": "scan_ports",
+     "args": {
+      "target": "10.10.2.4"
+     },
+     "reached": false,
+     "result": "Starting Nmap 7.991 ( https://nmap.org ) at 2026-11-22 03:30 +0000\nNmap scan report for 10.10.2.4\nHost is up.\nAll 100 scanned ports on 10.10.2.4 are in ignored states.\nNot shown: 100 filtered tcp ports (no-response)\n\nNmap done: 1 IP address (1 host up) scanned in 18.34 seconds\n"
+    }
+   ],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity observed yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [
+    {
+     "src": "10.10.1.158",
+     "signature": "CS port scan (many SYN)",
+     "count": 4
+    }
+   ],
+   "sources": {
+    "10.10.1.158": {
+     "requests": 0,
+     "flows": 260,
+     "alerts": 4,
+     "errors": 0
+    },
+    "10.10.1.174": {
+     "requests": 27,
+     "flows": 26,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 8,
+    "fail": 0
+   },
+   "firewall": {
+    "10.10.1.158": "block"
+   }
+  }
+ ],
+ "status": "done",
+ "result": {
+  "attack": true,
+  "attacker": "llm",
+  "attack_start": 5,
+  "detected": true,
+  "detect_tick": 8,
+  "time_to_detect": 3,
+  "contained": true,
+  "contain_tick": 8,
+  "time_to_contain": 3,
+  "containment": "block",
+  "red_actions": 9,
+  "red_actions_reached": 4,
+  "reached_after_contain": 1,
+  "challenges_solved": [],
+  "flag_captured": false,
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 75,
+  "legit_fail": 0,
+  "availability": 1.0,
+  "blue_reward": 17.0,
+  "red_reward": -3.0
+ },
+ "lessons": {
+  "blue": [
+   "Act on initial CS port scan alerts to block IP early.",
+   "Monitor for repeated port scanning patterns to identify attackers.",
+   "Review and act on all sensor alerts promptly, not just visible activity."
+  ],
+  "red": [
+   "Use more targeted nmap scans to avoid broad detection.",
+   "Rotate IP addresses or use proxies after initial scans.",
+   "Refine target selection based on preliminary scan results."
+  ]
+ }
+}

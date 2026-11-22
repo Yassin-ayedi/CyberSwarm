@@ -1,0 +1,15 @@
+- Analyze network responses more thoroughly before repeated requests.
+- Use more targeted nmap scans to avoid broad detection.
+- Rotate IP addresses or use proxies after initial scans.
+- Refine target selection based on preliminary scan results.
+- Use a proxy to rotate IP addresses before each scan.
+- Scan fewer ports initially to avoid triggering automated blocks.
+- Employ stealth techniques to reduce scan noise and detection risk.
+- Use alternative proxies or IP rotation services to bypass blocking.
+- Focus on specific high-value ports early to avoid broad scans that trigger alerts.
+- Use a smaller, more targeted port range to evade initial blocks.
+- Rotate IP addresses or use a proxy service to maintain access.
+- Adjust timing between scans to blend in with normal network traffic.
+- Use a narrower port range to avoid triggering broad scan detection.
+- Focus on specific targets within the lab network instead of scanning entire subnets.
+- Adjust timing between requests to reduce the frequency of immediate rejections.

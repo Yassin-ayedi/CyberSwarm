@@ -1,0 +1,461 @@
+{
+ "meta": {
+  "run": "mvp1",
+  "phase": "eval_scripted_trained",
+  "episode": 5,
+  "lab": "live",
+  "blue_playbook": "- Act on initial CS port scan alerts to block IP early.\n- Monitor for repeated port scanning patterns to identify attackers.\n- Review and act on all sensor alerts promptly, not just visible activity.\n- Inspect all IP behaviors for anomalies, not just flagged ones.\n- Differentiate between benign and malicious port scanning patterns.\n- Act promptly on confirmed port scan alerts to contain the attacker.\n- Monitor for sudden increases in port scan activities from any IP, not just flagged ones.\n- Differentiate between normal customer behavior and attacker patterns by analyzing command usage and frequency.\n- React promptly to multiple SYN scan alerts to contain potential threats faster.\n- React immediately to unusual port scanning activity.\n- Differentiate between persistent and sporadic scanning patterns.\n- Enhance real-time alerting for subtle command-line tool usage.\n- Inspect network behavior patterns rather than individual IPs for anomalies.\n- Raise alerts for unexpected increases in port scan activities across subnets.\n- Contain suspected malicious activities immediately upon detection of pattern anomalies.\n",
+  "red_playbook": "- Analyze network responses more thoroughly before repeated requests.\n- Use more targeted nmap scans to avoid broad detection.\n- Rotate IP addresses or use proxies after initial scans.\n- Refine target selection based on preliminary scan results.\n- Use a proxy to rotate IP addresses before each scan.\n- Scan fewer ports initially to avoid triggering automated blocks.\n- Employ stealth techniques to reduce scan noise and detection risk.\n- Use alternative proxies or IP rotation services to bypass blocking.\n- Focus on specific high-value ports early to avoid broad scans that trigger alerts.\n- Use a smaller, more targeted port range to evade initial blocks.\n- Rotate IP addresses or use a proxy service to maintain access.\n- Adjust timing between scans to blend in with normal network traffic.\n- Use a narrower port range to avoid triggering broad scan detection.\n- Focus on specific targets within the lab network instead of scanning entire subnets.\n- Adjust timing between requests to reduce the frequency of immediate rejections.\n",
+  "started": "2026-11-22 05:01:09"
+ },
+ "scenario": {
+  "seed": 5005,
+  "n_ticks": 14,
+  "attack": false,
+  "attacker": "none",
+  "attacker_ip": "10.10.1.85",
+  "legit_ip": "10.10.1.79",
+  "red_start_tick": -1,
+  "red_ticks": []
+ },
+ "ticks": [
+  {
+   "tick": 0,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected yet."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.101": {
+     "requests": 0,
+     "flows": 1,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.79": {
+     "requests": 3,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 1,
+   "red": [],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.101"
+     },
+     "result": "No recorded activity from 10.10.1.101 this episode."
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected from 10.10.1.101."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.101": {
+     "requests": 0,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.79": {
+     "requests": 6,
+     "flows": 0,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 2,
+   "red": [],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.101"
+     },
+     "result": "No recorded activity from 10.10.1.101 this episode."
+    },
+    {
+     "thought": "Since there is still no recorded activity from 10.10.1.101, I will continue to monitor it without taking any action. The lack of HTTP requests and the presence of network flows could be due to background network activity or a potential reconnaissance phase. I will wait to gather more evidence before making a decision.\n\nt2: wait({\"reason\": \"No suspicious activity detected from 10.10.1.101 and 10.10"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 6,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    },
+    "10.10.1.101": {
+     "requests": 0,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 3,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 6,
+     "flows": 10,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 4,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 6,
+     "flows": 5,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 5,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 3,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 6,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 3,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 1,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 7,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 3,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 8,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 6,
+     "flows": 5,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 9,
+   "red": [],
+   "blue": [
+    {
+     "tool": "inspect_ip",
+     "args": {
+      "ip": "10.10.1.79"
+     },
+     "result": "Last HTTP requests from 10.10.1.79 (45 total this episode):\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q=juice -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q= -> 200  ua=python-requests/2.34.2\n  GET /rest/products/search?q=cookie -> 200  ua=python-requests/2.34.2\n  GET / -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests/2.34.2\n  GET /api/Products -> 200  ua=python-requests"
+    },
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 3,
+     "flows": 2,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 10,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 6,
+     "flows": 6,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 11,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 6,
+     "flows": 10,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 12,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 3,
+     "flows": 5,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 3,
+    "fail": 0
+   },
+   "firewall": {}
+  },
+  {
+   "tick": 13,
+   "red": [],
+   "blue": [
+    {
+     "tool": "wait",
+     "args": {
+      "reason": "No suspicious activity detected."
+     },
+     "result": "ok, no action"
+    }
+   ],
+   "alerts": [],
+   "sources": {
+    "10.10.1.79": {
+     "requests": 6,
+     "flows": 3,
+     "alerts": 0,
+     "errors": 0
+    }
+   },
+   "legit": {
+    "ok": 2,
+    "fail": 0
+   },
+   "firewall": {}
+  }
+ ],
+ "status": "done",
+ "result": {
+  "attack": false,
+  "attacker": "none",
+  "attack_start": null,
+  "detected": false,
+  "detect_tick": null,
+  "time_to_detect": null,
+  "contained": false,
+  "contain_tick": null,
+  "time_to_contain": null,
+  "containment": null,
+  "red_actions": 0,
+  "red_actions_reached": 0,
+  "reached_after_contain": 0,
+  "challenges_solved": [],
+  "flag_captured": false,
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 33,
+  "legit_fail": 0,
+  "availability": 1.0,
+  "blue_reward": 10.0,
+  "red_reward": 0
+ }
+}

@@ -1,0 +1,365 @@
+[
+ {
+  "episode": 0,
+  "file": "ep_000.json",
+  "scenario": {
+   "seed": 1000,
+   "n_ticks": 18,
+   "attack": true,
+   "attacker": "llm",
+   "attacker_ip": "10.10.1.230",
+   "legit_ip": "10.10.1.140",
+   "red_start_tick": 2,
+   "red_ticks": [
+    2,
+    3,
+    4,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    16,
+    17
+   ],
+   "spare_ips": [
+    "10.10.1.202",
+    "10.10.1.225",
+    "10.10.1.56"
+   ]
+  },
+  "ticks_played": 18,
+  "ended_early": null,
+  "attack": true,
+  "attacker": "llm",
+  "attack_start": 2,
+  "attacker_ips": [
+   "10.10.1.230",
+   "10.10.1.202"
+  ],
+  "detected": true,
+  "detect_tick": 2,
+  "time_to_detect": 0,
+  "contained": true,
+  "contain_tick": 2,
+  "time_to_contain": 0,
+  "ip_changes": [
+   {
+    "tick": 4,
+    "from": "10.10.1.230",
+    "to": "10.10.1.202",
+    "reblocked_after": 9
+   }
+  ],
+  "reblocked": 1,
+  "shut_out_at_end": true,
+  "exposure_ticks": 9,
+  "containment": "block",
+  "red_actions": 13,
+  "red_actions_reached": 2,
+  "reached_after_contain": 1,
+  "challenges_solved": [],
+  "flag_captured": false,
+  "red_outcomes": {
+   "answered": 2,
+   "rate_limited": 2,
+   "moved": 1,
+   "no_answer": 5,
+   "blocked": 4
+  },
+  "waf_patterns": [],
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 117,
+  "legit_fail": 0,
+  "availability": 1.0,
+  "blue_reward": 11.0,
+  "red_reward": -4.0
+ },
+ {
+  "episode": 1,
+  "file": "ep_001.json",
+  "scenario": {
+   "seed": 1001,
+   "n_ticks": 18,
+   "attack": true,
+   "attacker": "llm",
+   "attacker_ip": "10.10.1.234",
+   "legit_ip": "10.10.1.45",
+   "red_start_tick": 5,
+   "red_ticks": [
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    17
+   ],
+   "spare_ips": [
+    "10.10.1.225",
+    "10.10.1.81",
+    "10.10.1.54"
+   ]
+  },
+  "ticks_played": 18,
+  "ended_early": null,
+  "attack": true,
+  "attacker": "llm",
+  "attack_start": 5,
+  "attacker_ips": [
+   "10.10.1.234",
+   "10.10.1.225"
+  ],
+  "detected": true,
+  "detect_tick": 5,
+  "time_to_detect": 0,
+  "contained": true,
+  "contain_tick": 5,
+  "time_to_contain": 0,
+  "ip_changes": [
+   {
+    "tick": 12,
+    "from": "10.10.1.234",
+    "to": "10.10.1.225",
+    "reblocked_after": 0
+   }
+  ],
+  "reblocked": 1,
+  "shut_out_at_end": true,
+  "exposure_ticks": 0,
+  "containment": "block",
+  "red_actions": 12,
+  "red_actions_reached": 1,
+  "reached_after_contain": 0,
+  "challenges_solved": [],
+  "flag_captured": false,
+  "red_outcomes": {
+   "answered": 1,
+   "blocked": 10,
+   "moved": 1,
+   "no_answer": 1
+  },
+  "waf_patterns": [],
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 153,
+  "legit_fail": 0,
+  "availability": 1.0,
+  "blue_reward": 20.0,
+  "red_reward": -4.5
+ },
+ {
+  "episode": 2,
+  "file": "ep_002.json",
+  "scenario": {
+   "seed": 1002,
+   "n_ticks": 18,
+   "attack": false,
+   "attacker": "none",
+   "attacker_ip": "10.10.1.164",
+   "legit_ip": "10.10.1.183",
+   "red_start_tick": -1,
+   "red_ticks": [],
+   "spare_ips": []
+  },
+  "ticks_played": 18,
+  "ended_early": null,
+  "attack": false,
+  "attacker": "none",
+  "attack_start": null,
+  "attacker_ips": [],
+  "detected": false,
+  "detect_tick": null,
+  "time_to_detect": null,
+  "contained": false,
+  "contain_tick": null,
+  "time_to_contain": null,
+  "ip_changes": [],
+  "reblocked": 0,
+  "shut_out_at_end": false,
+  "exposure_ticks": 0,
+  "containment": null,
+  "red_actions": 0,
+  "red_actions_reached": 0,
+  "reached_after_contain": 0,
+  "challenges_solved": [],
+  "flag_captured": false,
+  "red_outcomes": {},
+  "waf_patterns": [],
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 35,
+  "legit_fail": 0,
+  "availability": 1.0,
+  "blue_reward": 10.0,
+  "red_reward": 0
+ },
+ {
+  "episode": 3,
+  "file": "ep_003.json",
+  "scenario": {
+   "seed": 1003,
+   "n_ticks": 18,
+   "attack": true,
+   "attacker": "llm",
+   "attacker_ip": "10.10.1.158",
+   "legit_ip": "10.10.1.174",
+   "red_start_tick": 6,
+   "red_ticks": [
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    16
+   ],
+   "spare_ips": [
+    "10.10.1.123",
+    "10.10.1.87",
+    "10.10.1.215"
+   ]
+  },
+  "ticks_played": 18,
+  "ended_early": null,
+  "attack": true,
+  "attacker": "llm",
+  "attack_start": 6,
+  "attacker_ips": [
+   "10.10.1.158",
+   "10.10.1.87"
+  ],
+  "detected": true,
+  "detect_tick": 6,
+  "time_to_detect": 0,
+  "contained": true,
+  "contain_tick": 8,
+  "time_to_contain": 2,
+  "ip_changes": [
+   {
+    "tick": 12,
+    "from": "10.10.1.158",
+    "to": "10.10.1.87",
+    "reblocked_after": 1
+   }
+  ],
+  "reblocked": 1,
+  "shut_out_at_end": true,
+  "exposure_ticks": 3,
+  "containment": "block",
+  "red_actions": 15,
+  "red_actions_reached": 7,
+  "reached_after_contain": 2,
+  "challenges_solved": [],
+  "flag_captured": false,
+  "red_outcomes": {
+   "answered": 7,
+   "blocked": 8,
+   "moved": 2
+  },
+  "waf_patterns": [],
+  "false_positive_actions": 0,
+  "legit_blocked_ticks": 0,
+  "legit_ok": 97,
+  "legit_fail": 1,
+  "availability": 0.99,
+  "blue_reward": 16.9,
+  "red_reward": -1.5
+ },
+ {
+  "episode": 4,
+  "file": "ep_004.json",
+  "scenario": {
+   "seed": 1004,
+   "n_ticks": 18,
+   "attack": true,
+   "attacker": "llm",
+   "attacker_ip": "10.10.1.138",
+   "legit_ip": "10.10.1.58",
+   "red_start_tick": 6,
+   "red_ticks": [
+    6,
+    7,
+    8,
+    10,
+    11,
+    12,
+    13,
+    15,
+    16,
+    17
+   ],
+   "spare_ips": [
+    "10.10.1.215",
+    "10.10.1.187",
+    "10.10.1.169"
+   ]
+  },
+  "ticks_played": 18,
+  "ended_early": null,
+  "attack": true,
+  "attacker": "llm",
+  "attack_start": 6,
+  "attacker_ips": [
+   "10.10.1.138",
+   "10.10.1.215",
+   "10.10.1.187"
+  ],
+  "detected": true,
+  "detect_tick": 6,
+  "time_to_detect": 0,
+  "contained": true,
+  "contain_tick": 6,
+  "time_to_contain": 0,
+  "ip_changes": [
+   {
+    "tick": 8,
+    "from": "10.10.1.138",
+    "to": "10.10.1.215",
+    "reblocked_after": 3
+   },
+   {
+    "tick": 16,
+    "from": "10.10.1.215",
+    "to": "10.10.1.187",
+    "reblocked_after": 1
+   }
+  ],
+  "reblocked": 2,
+  "shut_out_at_end": true,
+  "exposure_ticks": 4,
+  "containment": "block",
+  "red_actions": 14,
+  "red_actions_reached": 6,
+  "reached_after_contain": 4,
+  "challenges_solved": [],
+  "flag_captured": false,
+  "red_outcomes": {
+   "answered": 6,
+   "blocked": 7,
+   "moved": 2,
+   "no_answer": 1
+  },
+  "waf_patterns": [],
+  "false_positive_actions": 5,
+  "legit_blocked_ticks": 17,
+  "legit_ok": 15,
+  "legit_fail": 44,
+  "availability": 0.254,
+  "blue_reward": -16.46,
+  "red_reward": -2.0
+ }
+]
